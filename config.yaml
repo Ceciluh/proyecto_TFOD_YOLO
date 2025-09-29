@@ -1,0 +1,13 @@
+path: D:\VScode_projects\proyecto_TFOD_YOLO\data
+train: images/train  # train images (relative to 'path')
+val: images/train  # val images (relative to 'path')
+
+# Classes
+names:
+  0: Calculator
+  1: Lamp
+  2: Keyboard
+  3: Laptop
+  4: Monitor
+  5: Mouse
+  6: Mug
