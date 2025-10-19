@@ -1,4 +1,4 @@
-path: D:\VScode_projects\proyecto_TFOD_YOLO\data
+path: /content/drive/MyDrive/YOLO_project/data
 train: images/train
 val: images/val
 
@@ -13,15 +13,15 @@ names:
   6: Mug
 
 hsv_h: 0.015
-hsv_s: 0.7
-hsv_v: 0.4
+hsv_s: 0.4     
+hsv_v: 0.2     
 degrees: 10.0
 translate: 0.1
-scale: 0.5
+scale: 0.3     
 shear: 2.0
 perspective: 0.0
 flipud: 0.0
 fliplr: 0.5
 mosaic: 1.0
-mixup: 0.1
+mixup: 0.1      
 copy_paste: 0.0
