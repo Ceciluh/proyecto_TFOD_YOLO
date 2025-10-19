@@ -1,22 +1,39 @@
-# pip install opencv-python
-import cv2
 from ultralytics import YOLO
+import cv2
 
 model = YOLO('best.onnx')
-print(model.names)
 
-webcamera = cv2.VideoCapture(0)
-# webcamera.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-# webcamera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+video_path = r'D:\VScode_projects\proyecto_TFOD_YOLO\data\test\test_5.mp4'
 
-while True:
-    success, frame = webcamera.read()
+cap = cv2.VideoCapture(video_path)
+
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+output_path = 'output_detection.mp4'
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
     
-    results = model.track(frame, conf=0.25, iou=0.7)
-    cv2.putText(frame, f"Total: {len(results[0].boxes)}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-    cv2.imshow("Live Camera", results[0].plot())
-    if cv2.waitKey(1) == ord('q'):
+    results = model(frame)
+    
+    annotated_frame = results[0].plot()
+    
+    out.write(annotated_frame)
+    
+    display_frame = cv2.resize(annotated_frame, (1280, 720))
+    
+    cv2.imshow('YOLOv8 Detection', display_frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-webcamera.release()
+cap.release()
 cv2.destroyAllWindows()
